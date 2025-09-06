@@ -67,11 +67,12 @@ pipeline {
                 
                         sh '''
                             #!/bin/bash
-                            echo "Deploying to server: $server"
-                                docker pull ${IMAGE_NAME}:${TAG}
-                                docker stop ${DOCKER_NAME} || true
-                                docker rm ${DOCKER_NAME} || true
-                                docker run -d --name ${DOCKER_NAME} -p 8900:80 ${IMAGE_NAME}:${TAG}
+                            server='192.168.3.156'
+                                echo "Deploying to server: $server"
+                                ssh -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ${SSH_USER}@$server "sudo docker pull ${IMAGE_NAME}:${TAG}"
+                                ssh -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ${SSH_USER}@$server "sudo docker stop ${DOCKER_NAME} || true"
+                                ssh -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ${SSH_USER}@$server "sudo docker rm ${DOCKER_NAME} || true"
+                                ssh -o StrictHostKeyChecking=no -i ${SSH_KEY_PATH} ${SSH_USER}@$server "sudo docker run -d --name ${DOCKER_NAME} -p 8900:80 ${IMAGE_NAME}:${TAG}"
                         '''
                         
                      }
