@@ -68,10 +68,10 @@ pipeline {
                         sh '''
                             #!/bin/bash
                             echo "Deploying to server: $server"
-                                sudo docker pull ${IMAGE_NAME}:${TAG}
-                                sudo docker stop ${DOCKER_NAME} || true
-                                sudo docker rm ${DOCKER_NAME} || true
-                                sudo docker run -d --name ${DOCKER_NAME} -p 8900:80 ${IMAGE_NAME}:${TAG}
+                                docker pull ${IMAGE_NAME}:${TAG}
+                                docker stop ${DOCKER_NAME} || true
+                                docker rm ${DOCKER_NAME} || true
+                                docker run -d --name ${DOCKER_NAME} -p 8900:80 ${IMAGE_NAME}:${TAG}
                         '''
                         
                      }
